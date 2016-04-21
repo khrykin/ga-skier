@@ -51,12 +51,9 @@ class Bone {
       { start: this.start,
         end: this.end
       };
-    console.log('BEFORE this.end ' + this.end);
 
     this.end = this.end.rotate(degrees, this.start);
     this.updateChildrenPosition();
-
-    console.log('AFTER this.end ' + this.end);
 
     e.target = this;
     this.events.onMove.call(this, e);
@@ -99,6 +96,7 @@ class Bone {
 
     return out;
   }
+
 
   toString() {
     return `[object  Bone]:\n` + this.inspect();

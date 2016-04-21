@@ -69,6 +69,12 @@ class Body {
 
     return backbone;
   }
+
+  forEachBone(cb) {
+    for (let key in this.bones) {
+      cb(this.bones[key], key);
+    }
+  }
 }
 
 export default Body;
