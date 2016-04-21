@@ -1,5 +1,6 @@
 require("./css/index.less");
 import Body from './Body';
+import Player from './Player';
 
 const draw = SVG('canvas');
 const man = new Body('Dima', {
@@ -7,6 +8,13 @@ const man = new Body('Dima', {
   position: {
     x: canvas.offsetWidth / 2,
     y: 100
+  }
+});
+
+const player = new Player({
+  x: (t) => t * t,
+  plot: (x, y, t) => {
+    console.log(x);
   }
 });
 
@@ -49,4 +57,5 @@ function updateBone(e) {
   logBones();
 }
 
+window.player = player;
 window.man = man;
