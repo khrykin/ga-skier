@@ -1,5 +1,4 @@
 import Point from './Point';
-import _ from 'lodash';
 
 class Movement {
   constructor(type, target) {
@@ -56,7 +55,7 @@ class Bone {
 
     this.end = this.end.rotate(degrees, this.start);
     this.updateChildrenPosition();
-    
+
     console.log('AFTER this.end ' + this.end);
 
     e.target = this;
@@ -98,7 +97,7 @@ class Bone {
       children = children.children;
     }
 
-    return out;//_.flattenDeep(out);
+    return out;
   }
 
   toString() {
