@@ -19,6 +19,7 @@ class Bone {
     this.parent = parent;
     this.length = props.length;
     this.angle = props.angle || 0;
+    this.MIN_ANGLE = this.angle;
 
     if (typeof props.start === 'object') {
       const { x, y } = props.start;
@@ -45,24 +46,34 @@ class Bone {
     return this.children[name];
   }
 
-  rotate(degrees) {
+  rotate(degrees, reverse = false) {
     let e = new Movement('rotation');
-    e.previousState =
-      { start: this.start,
-        end: this.end
-      };
+    e.previousState = {
+      start: this.start,
+      end: this.end
+    };
+
+    const oldEnd = this.end;
 
     this.end = this.end.rotate(degrees, this.start);
-    this.updateChildrenPosition();
+    this.updateChildrenPosition(oldEnd, degrees);
 
     e.target = this;
     this.events.onMove.call(this, e);
   };
 
-  updateChildrenPosition() {
+  updateChildrenPosition(oldEnd, degrees) {
     for (let key in this.children) {
-      const child = this.children[key];
-      child.start = this.end;
+
+      const child   = this.children[key];
+      const diff    = this.end.difference(oldEnd);
+
+      child.start   = this.end;
+
+      child.end = child.end
+        .shift(diff)
+        .rotate(child.angle + degrees, child.start)
+        ;
       this.events.onMove.call(child, new Movement('updateToParent', child));
     }
   }

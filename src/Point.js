@@ -29,6 +29,10 @@ class Point {
     );
   }
 
+  difference(point) {
+    return new Point(this.x - point.x, this.y - point.y);
+  }
+
   rotate(angle = 0, handle = this) {
     const radius = Point.distance(this, handle);
     return new Point(

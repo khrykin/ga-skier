@@ -1,6 +1,6 @@
-import Bone from './Bone';
+import Creature from './Creature';
 
-const L = 100;
+const L = 80;
 const LENGTHS = {
   neck:     0.5  * L,
   back:            L,
@@ -25,56 +25,32 @@ const ANGLES = {
   pole:     - 45
 }
 
-class Body {
-  constructor(name, { lengths, angles, onMove, position }) {
-    this.name = name;
-    this.lengths = { ...LENGTHS, lengths };
-    this.angles = { ...ANGLES, angles };
-    this.onMove = onMove || function () {};
-    this.position = position;
-
-    this.backbone = this.buildBackbone();
-    this.bones = this.backbone.dynasty;
+class Skier extends Creature {
+  constructor(name, props) {
+    const lengths = { ...LENGTHS, lengths };
+    const angles = { ...ANGLES, angles };
+    super(name, { ...props, lengths, angles });
   }
 
-  toString() {
-    return this.backbone.toString();
-  }
-
-  buildBackbone() {
-    let backbone = new Bone('backbone', null, {
-      length: 0,
-      start: this.position,
-      onMove: this.onMove
-    });
-
-
-
-    backbone
+  attachBones() {
+    this.backbone
       .attach('neck',     this.lengths.neck,    this.angles.neck)
       ;
 
-    backbone
+    this.backbone
+      .attach('back',     this.lengths.back,    this.angles.back)
       .attach('loin',     this.lengths.loin,    this.angles.loin)
       .attach('hip',      this.lengths.hip,     this.angles.hip)
       .attach('leg',      this.lengths.leg,     this.angles.leg)
       .attach('foot',     this.lengths.foot,    this.angles.foot)
       ;
 
-    backbone
+    this.backbone
       .attach('arm',      this.lengths.arm,     this.angles.arm)
       .attach('forearm',  this.lengths.forearm, this.angles.forearm)
       .attach('pole',     this.lengths.pole,    this.angles.pole)
       ;
-
-    return backbone;
-  }
-
-  forEachBone(cb) {
-    for (let key in this.bones) {
-      cb(this.bones[key], key);
-    }
   }
 }
 
-export default Body;
+export default Skier;
